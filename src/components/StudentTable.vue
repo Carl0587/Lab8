@@ -25,10 +25,35 @@
 </template>
 
 <script>
+    export default {
+        name:'StudentTable',
+        props:{
+            students:Array
+        },
+        methods:{
+            checked(student){
+                this.$emit('student-present', student)
+
+            }
+        }
+    }
 
 </script>
 
 <style>
+    #student-table {
+        max-height: 500px;
+        overflow: scroll;
+    }
+
+    .present-true {
+        color: gray;
+        font-style: italic;
+    }
+
+    .present-false {
+        font-weight: bold;
+    }
     /* Write any styles for elements in this component here  */
 </style>
 

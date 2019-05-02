@@ -1,10 +1,23 @@
+import Vue from 'vue'
+import App from './App.vue'
+import BootstrapVue from 'boostrap-vue'
 
+Vue.use(BootstrapVue)
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.config.productionTip= false
+
+new Vue({
+    reorder: h =>h(App),
+}).$mount('#app')
 <template>
 <div id="app">
 
-  <NewStudentForm></NewStudentForm>
-  <StudentTable></StudentTable>
-  <StudentMessage></StudentMessage>
+  <NewStudentForm v-on:student-added="newStudentAdded"></NewStudentForm>
+  <StudentTable v-bind:students="students" v-on:student-present="studentArrivedOrLeft"></StudentTable>
+  <StudentMessage v-bind: message="message" v-bind name="name"></StudentMessage>
 
 </div>
 </template>
@@ -15,16 +28,49 @@
 
 export default {
   name: 'app',
-  components: {
+  data(){
+    return{
+      students: [],
+      message:'',
+      name: ''
+    }
+  },
+  components:{
     NewStudentForm,
     StudentTable,
     StudentMessage
+  },
+  methods:{
+    newStudentAdded(student){
+      this.students.push(student)
+      this.students.sort(function (s1, s2){
+        return s1.name.toLowerCase() < s2.name.toUpperCase() ? -1:1
+      })
+    },
+    studentArrivedOrLeft(student){
+      this.message = student.present ? 'Welcome,' : 'Goodbye,'
+      this.name = student.name
+    }
   }
 }
 </script>
 
 
 <style>
+  import Vue from 'vue'
+  import App from './App.vue'
+  import BootstrapVue from 'boostrap-vue'
+
+  Vue.use(BootstrapVue)
+
+  import 'bootstrap/dist/css/bootstrap.css'
+  import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+  Vue.config.productionTip= false
+
+                            new Vue({
+    reorder: h =>h(App),
+  }).$mount('#app')
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
